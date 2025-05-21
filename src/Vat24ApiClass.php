@@ -9,7 +9,7 @@ class Vat24ApiClass
 {
     private string $apiKey;
 
-    private string $baseUrl = 'https://api.vat24api.com/v1';
+    private string $baseUrl = 'https://vat24api.com/api';
 
     private array $options = [];
 
