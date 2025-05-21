@@ -75,7 +75,33 @@ class ValidationResponse
      */
     public function isValid(): bool
     {
+        // Check if the API returned a validation error
+        if (isset($this->data['status']) && $this->data['status'] >= 400) {
+            return false;
+        }
+
+        // Check if the validation field exists and is valid
         return isset($this->data['validation']['valid']) && $this->data['validation']['valid'] === true;
+    }
+
+    /**
+     * Check if the response contains an error.
+     */
+    public function hasError(): bool
+    {
+        return isset($this->data['status']) && $this->data['status'] >= 400;
+    }
+
+    /**
+     * Get the error message if any.
+     */
+    public function getErrorMessage(): ?string
+    {
+        if ($this->hasError()) {
+            return $this->data['message'] ?? $this->data['error'] ?? 'Unknown error';
+        }
+
+        return null;
     }
 
     /**

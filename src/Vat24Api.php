@@ -20,25 +20,28 @@ class Vat24Api
     /**
      * Validate a VAT number.
      *
-     * @param  string  $vatNumber  The VAT number to validate (with or without country code)
+     * @param  string  $countryCode  The country code (e.g. 'NL', 'DE', 'GB')
+     * @param  string  $vatNumber  The VAT number to validate (without country code)
+     * @param  string|null  $requesterCountryCode  Optional requester country code
      * @param  string|null  $requesterVatNumber  Optional requester VAT number for mutual validation
      *
      * @throws Vat24ApiException
      */
-    public function validateVat(string $vatNumber, ?string $requesterVatNumber = null): ValidationResponse
+    public function validateVat(string $countryCode, string $vatNumber, ?string $requesterCountryCode = null, ?string $requesterVatNumber = null): ValidationResponse
     {
-        return $this->client->validateVat($vatNumber, $requesterVatNumber);
+        return $this->client->validateVat($countryCode, $vatNumber, $requesterCountryCode, $requesterVatNumber);
     }
 
     /**
      * Validate an EORI number.
      *
-     * @param  string  $eoriNumber  The EORI number to validate (with or without country code)
+     * @param  string  $countryCode  The country code (e.g. 'GB')
+     * @param  string  $eoriNumber  The EORI number to validate (without country code)
      *
      * @throws Vat24ApiException
      */
-    public function validateEori(string $eoriNumber): ValidationResponse
+    public function validateEori(string $countryCode, string $eoriNumber): ValidationResponse
     {
-        return $this->client->validateEori($eoriNumber);
+        return $this->client->validateEori($countryCode, $eoriNumber);
     }
 }

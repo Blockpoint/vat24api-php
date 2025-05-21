@@ -33,11 +33,11 @@ class Vat24ApiTest extends TestCase
 
         $api->expects($this->once())
             ->method('validateVat')
-            ->with('NL836176320B01')
+            ->with('NL', '836176320B01')
             ->willReturn($mockResponse);
 
         // Call the method
-        $response = $api->validateVat('NL836176320B01');
+        $response = $api->validateVat('NL', '836176320B01');
 
         // Assert the response
         $this->assertTrue($response->isValid());
@@ -71,11 +71,11 @@ class Vat24ApiTest extends TestCase
 
         $api->expects($this->once())
             ->method('validateEori')
-            ->with('GB123456789000')
+            ->with('GB', '123456789000')
             ->willReturn($mockResponse);
 
         // Call the method
-        $response = $api->validateEori('GB123456789000');
+        $response = $api->validateEori('GB', '123456789000');
 
         // Assert the response
         $this->assertTrue($response->isValid());

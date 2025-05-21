@@ -7,3 +7,4 @@ All notable changes to `vat24api-php` will be documented in this file.
 - Initial release
 - Support for VAT number validation
 - Support for EORI number validation
+- Improved error handling with detailed error messages from the API

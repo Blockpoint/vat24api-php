@@ -24,9 +24,12 @@ $vat24api = new Blockpoint\Vat24Api\Vat24Api('your-api-key');
 
 // Validate a VAT number
 try {
-    $response = $vat24api->validateVat('NL836176320B01');
+    $response = $vat24api->validateVat('NL', '836176320B01');
 
-    if ($response->isValid()) {
+    if ($response->hasError()) {
+        echo "API Error: " . $response->getErrorMessage() . "\n";
+        echo "Status Code: " . $response->getStatusCode() . "\n";
+    } elseif ($response->isValid()) {
         echo "VAT number is valid!\n";
         echo "Company name: " . $response->getCompanyName() . "\n";
         echo "Company address: " . $response->getCompanyAddress() . "\n";
@@ -40,9 +43,12 @@ try {
 
 // Validate an EORI number
 try {
-    $response = $vat24api->validateEori('GB123456789000');
+    $response = $vat24api->validateEori('GB', '123456789000');
 
-    if ($response->isValid()) {
+    if ($response->hasError()) {
+        echo "API Error: " . $response->getErrorMessage() . "\n";
+        echo "Status Code: " . $response->getStatusCode() . "\n";
+    } elseif ($response->isValid()) {
         echo "EORI number is valid!\n";
         echo "Company name: " . $response->getCompanyName() . "\n";
     } else {
@@ -59,19 +65,19 @@ try {
 #### Validate VAT Number
 
 ```php
-$response = $vat24api->validateVat('NL836176320B01');
+$response = $vat24api->validateVat('NL', '836176320B01');
 ```
 
-You can also perform a mutual validation by providing a requester VAT number:
+You can also perform a mutual validation by providing a requester country code and VAT number:
 
 ```php
-$response = $vat24api->validateVat('NL836176320B01', 'GB123456789');
+$response = $vat24api->validateVat('NL', '836176320B01', 'GB', '123456789');
 ```
 
 #### Validate EORI Number
 
 ```php
-$response = $vat24api->validateEori('GB123456789000');
+$response = $vat24api->validateEori('GB', '123456789000');
 ```
 
 ### Response Methods
@@ -79,6 +85,8 @@ $response = $vat24api->validateEori('GB123456789000');
 The `ValidationResponse` object provides the following methods:
 
 - `isValid()`: Returns whether the VAT/EORI number is valid
+- `hasError()`: Returns whether the response contains an API error
+- `getErrorMessage()`: Returns the error message if any
 - `getStatusCode()`: Returns the HTTP status code
 - `getMessage()`: Returns the status message
 - `getCountryCode()`: Returns the country code

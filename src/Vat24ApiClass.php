@@ -29,22 +29,26 @@ class Vat24ApiClass
     /**
      * Validate a VAT number.
      *
-     * @param  string  $vatNumber  The VAT number to validate (with or without country code)
+     * @param  string  $countryCode  The country code (e.g. 'NL', 'DE', 'GB')
+     * @param  string  $vatNumber  The VAT number to validate (without country code)
+     * @param  string|null  $requesterCountryCode  Optional requester country code
      * @param  string|null  $requesterVatNumber  Optional requester VAT number for mutual validation
      *
      * @throws Vat24ApiException
      */
-    public function validateVat(string $vatNumber, ?string $requesterVatNumber = null): ValidationResponse
+    public function validateVat(string $countryCode, string $vatNumber, ?string $requesterCountryCode = null, ?string $requesterVatNumber = null): ValidationResponse
     {
         $params = [
+            'country_code' => $countryCode,
             'vat_number' => $vatNumber,
         ];
 
-        if ($requesterVatNumber) {
+        if ($requesterVatNumber && $requesterCountryCode) {
+            $params['requester_country_code'] = $requesterCountryCode;
             $params['requester_vat_number'] = $requesterVatNumber;
         }
 
-        $response = $this->makeRequest('GET', '/validate/vat', $params);
+        $response = $this->makeRequest('POST', '/vat/validate', $params);
 
         return new ValidationResponse($response);
     }
@@ -52,17 +56,19 @@ class Vat24ApiClass
     /**
      * Validate an EORI number.
      *
-     * @param  string  $eoriNumber  The EORI number to validate (with or without country code)
+     * @param  string  $countryCode  The country code (e.g. 'GB')
+     * @param  string  $eoriNumber  The EORI number to validate (without country code)
      *
      * @throws Vat24ApiException
      */
-    public function validateEori(string $eoriNumber): ValidationResponse
+    public function validateEori(string $countryCode, string $eoriNumber): ValidationResponse
     {
         $params = [
+            'country_code' => $countryCode,
             'eori_number' => $eoriNumber,
         ];
 
-        $response = $this->makeRequest('GET', '/validate/eori', $params);
+        $response = $this->makeRequest('POST', '/eori/validate', $params);
 
         return new ValidationResponse($response);
     }
@@ -84,6 +90,7 @@ class Vat24ApiClass
                     'Content-Type: application/json',
                     'Accept: application/json',
                 ],
+                'ignore_errors' => true, // This allows us to get the error response body
             ],
         ];
 
@@ -107,11 +114,30 @@ class Vat24ApiClass
             throw new Vat24ApiException('Invalid JSON response from Vat24Api');
         }
 
-        if (isset($responseData['status']) && $responseData['status'] >= 400) {
+        // Get HTTP status code from the headers
+        $statusCode = 0;
+        if (isset($http_response_header[0])) {
+            preg_match('/\d{3}/', $http_response_header[0], $matches);
+            $statusCode = intval($matches[0] ?? 0);
+        }
+
+        // Only throw exceptions for server errors (5xx) or connection issues
+        // For 4xx errors, we'll return the response so the client can handle it
+        if ($statusCode >= 500) {
             throw new Vat24ApiException(
-                $responseData['message'] ?? 'Unknown error',
-                $responseData['status'] ?? 500
+                $responseData['message'] ?? 'Server error',
+                $statusCode
             );
+        }
+
+        // Make sure the response has a status field
+        if (!isset($responseData['status'])) {
+            $responseData['status'] = $statusCode;
+        }
+
+        // Make sure the response has a message field
+        if (!isset($responseData['message']) && isset($responseData['error'])) {
+            $responseData['message'] = $responseData['error'];
         }
 
         return $responseData;
