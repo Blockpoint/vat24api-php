@@ -3,9 +3,6 @@
 namespace Blockpoint\Vat24Api\Tests;
 
 use Blockpoint\Vat24Api\Vat24Api;
-use Blockpoint\Vat24Api\Vat24ApiClass;
-use Blockpoint\Vat24Api\Exceptions\Vat24ApiException;
-use Blockpoint\Vat24Api\Responses\ValidationResponse;
 use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase

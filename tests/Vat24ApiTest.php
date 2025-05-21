@@ -2,11 +2,9 @@
 
 namespace Blockpoint\Vat24Api\Tests;
 
-use Blockpoint\Vat24Api\Vat24Api;
-use Blockpoint\Vat24Api\Exceptions\Vat24ApiException;
 use Blockpoint\Vat24Api\Responses\ValidationResponse;
+use Blockpoint\Vat24Api\Vat24Api;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 class Vat24ApiTest extends TestCase
 {
@@ -88,9 +86,6 @@ class Vat24ApiTest extends TestCase
 
     /**
      * Create a mock ValidationResponse object.
-     *
-     * @param array $data
-     * @return ValidationResponse
      */
     private function createMockResponse(array $data): ValidationResponse
     {

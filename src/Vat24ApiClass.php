@@ -7,26 +7,14 @@ use Blockpoint\Vat24Api\Responses\ValidationResponse;
 
 class Vat24ApiClass
 {
-    /**
-     * @var string
-     */
     private string $apiKey;
 
-    /**
-     * @var string
-     */
-    private string $baseUrl = 'https://vat24api.com/api';
+    private string $baseUrl = 'https://api.vat24api.com/v1';
 
-    /**
-     * @var array
-     */
     private array $options = [];
 
     /**
      * Create a new Vat24Api instance.
-     *
-     * @param string $apiKey
-     * @param array $options
      */
     public function __construct(string $apiKey, array $options = [])
     {
@@ -41,9 +29,9 @@ class Vat24ApiClass
     /**
      * Validate a VAT number.
      *
-     * @param string $vatNumber The VAT number to validate (with or without country code)
-     * @param string|null $requesterVatNumber Optional requester VAT number for mutual validation
-     * @return ValidationResponse
+     * @param  string  $vatNumber  The VAT number to validate (with or without country code)
+     * @param  string|null  $requesterVatNumber  Optional requester VAT number for mutual validation
+     *
      * @throws Vat24ApiException
      */
     public function validateVat(string $vatNumber, ?string $requesterVatNumber = null): ValidationResponse
@@ -64,8 +52,8 @@ class Vat24ApiClass
     /**
      * Validate an EORI number.
      *
-     * @param string $eoriNumber The EORI number to validate (with or without country code)
-     * @return ValidationResponse
+     * @param  string  $eoriNumber  The EORI number to validate (with or without country code)
+     *
      * @throws Vat24ApiException
      */
     public function validateEori(string $eoriNumber): ValidationResponse
@@ -82,30 +70,26 @@ class Vat24ApiClass
     /**
      * Make an API request.
      *
-     * @param string $method
-     * @param string $endpoint
-     * @param array $params
-     * @return array
      * @throws Vat24ApiException
      */
     private function makeRequest(string $method, string $endpoint, array $params = []): array
     {
-        $url = $this->baseUrl . $endpoint;
+        $url = $this->baseUrl.$endpoint;
 
         $options = [
             'http' => [
                 'method' => $method,
                 'header' => [
-                    'Authorization: Bearer ' . $this->apiKey,
+                    'Authorization: Bearer '.$this->apiKey,
                     'Content-Type: application/json',
                     'Accept: application/json',
                 ],
             ],
         ];
 
-        if ($method === 'GET' && !empty($params)) {
-            $url .= '?' . http_build_query($params);
-        } elseif (!empty($params)) {
+        if ($method === 'GET' && ! empty($params)) {
+            $url .= '?'.http_build_query($params);
+        } elseif (! empty($params)) {
             $options['http']['content'] = json_encode($params);
         }
 

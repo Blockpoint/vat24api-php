@@ -4,15 +4,10 @@ namespace Blockpoint\Vat24Api\Responses;
 
 class ValidationResponse
 {
-    /**
-     * @var array
-     */
     private array $data;
 
     /**
      * Create a new ValidationResponse instance.
-     *
-     * @param array $data
      */
     public function __construct(array $data)
     {
@@ -21,8 +16,6 @@ class ValidationResponse
 
     /**
      * Get the status code.
-     *
-     * @return int
      */
     public function getStatusCode(): int
     {
@@ -31,8 +24,6 @@ class ValidationResponse
 
     /**
      * Get the status message.
-     *
-     * @return string
      */
     public function getMessage(): string
     {
@@ -41,8 +32,6 @@ class ValidationResponse
 
     /**
      * Get the country code.
-     *
-     * @return string|null
      */
     public function getCountryCode(): ?string
     {
@@ -51,8 +40,6 @@ class ValidationResponse
 
     /**
      * Get the VAT number.
-     *
-     * @return string|null
      */
     public function getVatNumber(): ?string
     {
@@ -61,8 +48,6 @@ class ValidationResponse
 
     /**
      * Get the EORI number.
-     *
-     * @return string|null
      */
     public function getEoriNumber(): ?string
     {
@@ -71,8 +56,6 @@ class ValidationResponse
 
     /**
      * Get the requester country code.
-     *
-     * @return string|null
      */
     public function getRequesterCountryCode(): ?string
     {
@@ -81,8 +64,6 @@ class ValidationResponse
 
     /**
      * Get the requester VAT number.
-     *
-     * @return string|null
      */
     public function getRequesterVatNumber(): ?string
     {
@@ -91,8 +72,6 @@ class ValidationResponse
 
     /**
      * Check if the validation was successful.
-     *
-     * @return bool
      */
     public function isValid(): bool
     {
@@ -101,8 +80,6 @@ class ValidationResponse
 
     /**
      * Get the validation status.
-     *
-     * @return string|null
      */
     public function getValidationStatus(): ?string
     {
@@ -111,8 +88,6 @@ class ValidationResponse
 
     /**
      * Get the fault string.
-     *
-     * @return string|null
      */
     public function getFaultString(): ?string
     {
@@ -121,8 +96,6 @@ class ValidationResponse
 
     /**
      * Get the request date.
-     *
-     * @return string|null
      */
     public function getRequestDate(): ?string
     {
@@ -131,8 +104,6 @@ class ValidationResponse
 
     /**
      * Get the consultation number.
-     *
-     * @return string|null
      */
     public function getConsultationNumber(): ?string
     {
@@ -141,8 +112,6 @@ class ValidationResponse
 
     /**
      * Get the consultation authority.
-     *
-     * @return string|null
      */
     public function getConsultationAuthority(): ?string
     {
@@ -151,8 +120,6 @@ class ValidationResponse
 
     /**
      * Get the company name.
-     *
-     * @return string|null
      */
     public function getCompanyName(): ?string
     {
@@ -161,8 +128,6 @@ class ValidationResponse
 
     /**
      * Get the company address.
-     *
-     * @return string|null
      */
     public function getCompanyAddress(): ?string
     {
@@ -171,8 +136,6 @@ class ValidationResponse
 
     /**
      * Get the raw response data.
-     *
-     * @return array
      */
     public function toArray(): array
     {
