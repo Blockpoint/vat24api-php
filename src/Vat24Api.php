@@ -7,16 +7,10 @@ use Blockpoint\Vat24Api\Responses\ValidationResponse;
 
 class Vat24Api
 {
-    /**
-     * @var Vat24ApiClass
-     */
     private Vat24ApiClass $client;
 
     /**
      * Create a new Vat24Api instance.
-     *
-     * @param string $apiKey
-     * @param array $options
      */
     public function __construct(string $apiKey, array $options = [])
     {
@@ -26,9 +20,9 @@ class Vat24Api
     /**
      * Validate a VAT number.
      *
-     * @param string $vatNumber The VAT number to validate (with or without country code)
-     * @param string|null $requesterVatNumber Optional requester VAT number for mutual validation
-     * @return ValidationResponse
+     * @param  string  $vatNumber  The VAT number to validate (with or without country code)
+     * @param  string|null  $requesterVatNumber  Optional requester VAT number for mutual validation
+     *
      * @throws Vat24ApiException
      */
     public function validateVat(string $vatNumber, ?string $requesterVatNumber = null): ValidationResponse
@@ -39,8 +33,8 @@ class Vat24Api
     /**
      * Validate an EORI number.
      *
-     * @param string $eoriNumber The EORI number to validate (with or without country code)
-     * @return ValidationResponse
+     * @param  string  $eoriNumber  The EORI number to validate (with or without country code)
+     *
      * @throws Vat24ApiException
      */
     public function validateEori(string $eoriNumber): ValidationResponse
