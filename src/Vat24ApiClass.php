@@ -131,12 +131,12 @@ class Vat24ApiClass
         }
 
         // Make sure the response has a status field
-        if (!isset($responseData['status'])) {
+        if (! isset($responseData['status'])) {
             $responseData['status'] = $statusCode;
         }
 
         // Make sure the response has a message field
-        if (!isset($responseData['message']) && isset($responseData['error'])) {
+        if (! isset($responseData['message']) && isset($responseData['error'])) {
             $responseData['message'] = $responseData['error'];
         }
 
